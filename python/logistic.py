@@ -38,6 +38,25 @@ def evaluate(targets, y):
     
     return ce, frac_correct
 
+def linear(weights, inputs, bias):
+    return np.dot(np.transpose(weights), inputs) + bias
+
+def dfj(targets, weights, inputs, weight_index):
+    dfj = 0
+    for i in range(len(targets)):
+        z = linear(weights[:-1], inputs[i], weights[-1])
+        dfj += targets[i] * inputs[i][weight_index] - inputs[i][weight_index] * (np.exp(-z) / (1 + np.exp(-z)))
+
+    return dfj
+
+def dfbias(targets, weights, inputs):
+    dfb = 0
+    for i in range(len(targets)):
+        z = linear(weights[:-1], inputs[i], weights[-1])
+        dfb += targets[i] - 1 * (np.exp(-z) / (1 + np.exp(-z)))
+
+    return dfb
+
 def logistic(weights, data, targets, hyperparameters):
     """
     Calculate negative log likelihood and its derivatives with respect to weights.
@@ -62,7 +81,32 @@ def logistic(weights, data, targets, hyperparameters):
 
     # TODO: Finish this function
 
-    return f, df, y
+    #Iterate over the data to find f
+    f = 0
+    for i in range(len(targets)):
+        z = linear(weights[:-1], data[i], weights[-1])
+        L = 1 + np.exp(-z)
+        nextf = targets[i] * z + np.log(L)
+        f = f + nextf
+    
+    #iterate over data to find df
+    df = list()
+    for j in range(len(weights) - 1):
+            df.append(dfj(targets, weights, data, j))
+
+    df.append(dfbias(targets, weights, data))
+
+    #iterate over data to find y
+    y = list()
+    for i in range(len(targets)):
+        z = linear(weights[:-1], data[i], weights[-1])
+        pred0 = 1 / ( 1+ np.exp(-z))
+        if(targets[i] == 1):
+            y.append(1 - pred0)
+        else:
+            y.append(pred0)
+
+    return f, np.array(df), np.array(y)
 
 
 def logistic_pen(weights, data, targets, hyperparameters):

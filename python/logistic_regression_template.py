@@ -13,14 +13,14 @@ def run_logistic_regression():
 
     # TODO: Set hyperparameters
     hyperparameters = {
-                    'learning_rate': ...,
-                    'weight_regularization': ...,
-                    'num_iterations': ...
+                    'learning_rate': 1,
+                    'weight_regularization': 1,
+                    'num_iterations': 10
                  }
 
     # Logistic regression weights
     # TODO:Initialize to random weights here.
-    weights = ...
+    weights = list()
 
     # Verify that your logistic function produces the right gradient.
     # diff should be very close to 0.
