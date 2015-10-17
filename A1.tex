@@ -1,0 +1,95 @@
+\documentclass[letterpaper, 12pt]{article} 
+\usepackage{amsmath}
+\usepackage{bm}
+\usepackage{graphicx}
+\usepackage{amsfonts}
+\usepackage{fancyhdr}
+\usepackage{color}
+\setlength{\parindent}{0pt
+}\pagestyle{fancy}
+\rhead{Roland Gee 995293711}
+\title{Assignment 1}
+\author{Roland Gee 995293711}
+\begin{document}
+
+\maketitle
+
+\section*{Logistic Regression}
+\begin{itemize}
+	\item[1.1]
+		Baye's Rule : \\
+
+		$p(y=1 | x) = \frac{p(x|y = 1)p(y=1)}{p(x|y = 0)p(y = 0) + p(x|y = 1)p(y = 1)}$ \\
+
+		We know the following: \\
+
+		\begin{itemize}
+			\item[1.] $y$ follows a Bernoulli distribution
+			\item[2.]  Each $x_i$ is follows Gaussian distribution with class means $\mu_{i0} \mu_{i1}$ and shared class std $\\sigma_i$
+			\item[3.] Dimensions of $\bm{x}$ are conditionally independent with y
+		\end{itemize}
+
+		Simplifying the above equation \\
+
+		$p(y=1 | x) = \frac{1}{1 + \frac{p(y=0)p(x|y = 0)}{p(y = 1)p(x|y = 1)}}$ \\		
+
+		$= \frac{1}{1 + exp(ln\frac{p(y=0)p(x|y = 0)}{p(y = 1)p(x|y = 1)})}$
+
+		Because of 3. , $p(x|y = 1) = \prod_i^D p(x_i|y = 1)$ and $p(x|y = 0) = \prod_i^D p(x_i|y = 0)$. Also using the fact that ln($ab$) = ln(a) + ln(b), we can simplify the above to the following: \\
+
+		$= \frac{1}{1 + exp(ln\frac{p(y=0)}{p(y=1)} + \sigma_i^D ln\frac{p(x_i|y = 0)}{p(x_i|y = 1)})}$
+
+		From 1. , $p(y = 1) = \alpha$ and $p(y = 0) = 1 - \alpha$: \\
+
+		$= \frac{1}{1 + exp(ln\frac{\alpha}{1 - \alpha} + \sum_i^D ln\frac{p(x_i|y = 0)}{p(x_i|y = 1)})}$ \\
+
+		From 2, $p(x_i|y=0) = \frac{1}{\sqrt{2\pi\sigma_i^2}exp(\frac{-(x_i - \mu_{i0})^2}{2\sigma_i^2})}$, $p(x_i|y=1) = \frac{1}{\sqrt{2\pi\sigma_i^2}exp(\frac{-(x_i - \mu_{i1})^2}{2\sigma_i^2})}$
+
+		Simplifying $\sum_i^D ln\frac{p(x_i|y = 0)}{p(x_i|y = 1)}$ \\
+
+		$\sigma_i^D ln\frac{p(x_i|y = 0)}{p(x_i|y = 1)} = \sum_i^D\frac{\mu_{i0} - \mu_{i1}}{\sigma_i^2}x_i + \frac{\mu^2_{i1} - \mu^2_{i0}}{2\sigma^2_i}$ \\
+
+		Substituting back in: \\
+
+		$= \frac{1}{1 + exp(ln\frac{1 - \alpha}{\alpha} + \sum_i^D\frac{\mu_{i0} - \mu_{i1}}{\sigma_i^2}x_i + \frac{\mu^2_{i1} - \mu^2_{i0}}{2\sigma^2_i})}$ \\
+
+		To make the equation equivalent to logistic regression, we do the following: \\
+
+		let $-b = -ln\frac{1 - \alpha}{\alpha} - \sum_i^D \frac{-\mu^2_{i1} + \mu^2_{i0}}{2\sigma^2_i}$, $-w_i = -\frac{\mu_{i0} + \mu_{i1}}{\sigma_i^2}$ \\
+
+		$= \frac{1}{1 + exp(-\sum_i^D w_ix_i - b)}$ \\ 
+
+
+
+
+	\item[1.2]
+		
+	\item[1.3]
+\end{itemize}
+\section*{Digit Classification}
+\begin{itemize}
+	\item[2.1]
+		Here is the following table and corresponding plot for kNN performance: \\
+		\begin{center}
+			\begin{tabular}{ l | r }
+				k &rate\\
+				\hline
+				1 &0.82\\
+				3 &0.86\\
+				5 &0.86\\
+				7 &0.86\\
+				9 &0.84
+			\end{tabular}
+		\end{center}
+		\begin{center}
+			\includegraphics[scale=0.25]{figure_1.png}
+		\end{center}
+
+		The minimum $k$ that will produce the maximum $k*$ would be $k = 3$. Also since we are dealing with binary classification, $k$ should be odd. The rate for $k = 1$ is 0.82 and $k = 5$ is 0.86. The test performance in this case does correspond to the validation performance. Test performance is $O(dn)$. Validiation performance is $KO(\frac{dn}{K})$.
+
+	\item[2.2]
+	\item[2.3]
+	\item[2.4]
+	\item[2.5]
+\end{itemize}
+\end{document}
