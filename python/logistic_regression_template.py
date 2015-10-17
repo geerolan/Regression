@@ -8,19 +8,20 @@ def run_logistic_regression():
     train_inputs, train_targets = load_train()
     #train_inputs, train_targets = load_train_small()
     valid_inputs, valid_targets = load_valid()
+    #valid_inputs, valid_targets = load_test()
 
     N, M = train_inputs.shape
 
     # TODO: Set hyperparameters
     hyperparameters = {
-                    'learning_rate': 1,
-                    'weight_regularization': 1,
-                    'num_iterations': 10
+                    'learning_rate': 0.1,
+                    'weight_regularization': 0,
+                    'num_iterations': 50
                  }
 
     # Logistic regression weights
     # TODO:Initialize to random weights here.
-    weights = list()
+    weights = np.random.randn(M+1, 1)
 
     # Verify that your logistic function produces the right gradient.
     # diff should be very close to 0.

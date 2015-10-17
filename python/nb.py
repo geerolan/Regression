@@ -82,6 +82,9 @@ def main():
     test_inputs, test_targets = load_test()
 
     # add your code here (it should be less than 10 lines)
+    bayes = NaiveBayesClassifier()
+    bayes.train(train_inputs, train_targets)
+    bayes.predict(test_inputs, test_targets)
 
 if __name__ == '__main__':
     main()

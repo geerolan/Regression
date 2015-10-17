@@ -18,10 +18,13 @@ def logistic_predict(weights, data):
     Outputs:
         y:          :N x 1 vector of probabilities. This is the output of the classifier.
     """
-
-    # TODO: Finish this function
-
-    return y
+    y = list()
+    for row in data:
+        z = linear(weights[:-1], row, weights[-1])
+        pred0 = 1 / ( 1+ np.exp(-z))
+        y.append(pred0)
+    # TODO: Finish this function 
+    return np.array(y)
 
 def evaluate(targets, y):
     """
@@ -35,8 +38,20 @@ def evaluate(targets, y):
         frac_correct : (scalar) Fraction of inputs classified correctly.
     """
     # TODO: Finish this function
-    
-    return ce, frac_correct
+    ce = 0
+    correct = 0.0
+    for i in range(len(targets)):
+        if y[i] > 0.5:
+            guess = 0
+        else:
+            guess = 1
+
+        if targets[i] == guess:
+            correct+=1.0
+        ce_cur = np.log(y[i]) * targets[i]
+        ce += ce_cur
+    ce = -1 * ce
+    return ce, correct/len(targets)
 
 def linear(weights, inputs, bias):
     return np.dot(np.transpose(weights), inputs) + bias
@@ -81,15 +96,27 @@ def logistic(weights, data, targets, hyperparameters):
 
     # TODO: Finish this function
 
-    #Iterate over the data to find f
-    f = 0
+    #bias_vector = np.array(weights[-1] * len(weights) - 1)
+    z= list()
+    for row in data:
+        z.append(np.dot(weights[:-1].transpose(), row))
+    
+    Z = np.array(z) + weights[-1]
+    f = np.dot(targets.transpose(), Z) + np.sum(np.log(1 + np.exp(-Z)))
+    
+    '''
     for i in range(len(targets)):
         z = linear(weights[:-1], data[i], weights[-1])
         L = 1 + np.exp(-z)
+        tz = tz + (targets[i] * z)
         nextf = targets[i] * z + np.log(L)
-        f = f + nextf
-    
+        f = f + nextf'''
     #iterate over data to find df
+    '''T = np.array(targets)
+    t = np.array(targets)
+    for i in range(len(targets) - 1):
+        T = np.hstack((T,t))'''
+
     df = list()
     for j in range(len(weights) - 1):
             df.append(dfj(targets, weights, data, j))
@@ -97,16 +124,7 @@ def logistic(weights, data, targets, hyperparameters):
     df.append(dfbias(targets, weights, data))
 
     #iterate over data to find y
-    y = list()
-    for i in range(len(targets)):
-        z = linear(weights[:-1], data[i], weights[-1])
-        pred0 = 1 / ( 1+ np.exp(-z))
-        if(targets[i] == 1):
-            y.append(1 - pred0)
-        else:
-            y.append(pred0)
-
-    return f, np.array(df), np.array(y)
+    return f, np.array(df), logistic_predict(weights, data)
 
 
 def logistic_pen(weights, data, targets, hyperparameters):
