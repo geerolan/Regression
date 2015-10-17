@@ -80,11 +80,16 @@ def main():
     
     train_inputs, train_targets = load_train()
     test_inputs, test_targets = load_test()
-
+    T = np.hstack((test_inputs, test_targets))
     # add your code here (it should be less than 10 lines)
     bayes = NaiveBayesClassifier()
     bayes.train(train_inputs, train_targets)
-    bayes.predict(test_inputs, test_targets)
+    A = bayes.predict(test_targets)
+    print bayes.compute_accuracy(test_inputs, test_targets)
+    bins = np.linspace(0, 1)
+    plt.scatter(bayes.mean, bayes.var, color=["red", "green"] , alpha=0.5)
+    plt.show()
+
 
 if __name__ == '__main__':
     main()
