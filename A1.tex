@@ -63,7 +63,15 @@
 
 
 	\item[1.2]
-		
+		The definition of MLE for a binary output $y$ is the maximization of the following expression $L = \prod_{i=1}^N p(y = y_i | x)$. \\
+
+		$p( y = y_i | x^n, w, b) = \sigma(w^Tx^{(n)} + b)(1 - \sigma(w^Tx^{(n)})$ \\
+
+		$L = \prod_{i=1}^N [\sigma(w_i^Tx_i^{(n)}] + b)]^{y_i}[(1 - \sigma(w_i^Tx_i^{(n)})]^{(1-y_i)}$ \\
+
+		$\ln L = \sum_{i=1}^N\Bigg( y_i \ln \sigma(w_i^Tx_i^{(n)} + b) + (1-y_i) \ln (1 - \sigma(w_i^Tx_i^{(n)})] \Bigg)$ \\
+
+		$\sigma(w^Tx^{(n)} + b) = \frac{1}{1 + \exp(-\sum_{i=0}^D w_ix_i^{(n)} - b)}$
 	\item[1.3]
 \end{itemize}
 \section*{Digit Classification}
@@ -89,7 +97,22 @@
 
 	\item[2.2]
 	\item[2.3]
+	\newpage
 	\item[2.4]
+		Correctness fraction of Naive Bayes is 0.80. \\
+
+		Mean/Var Scatterplot: \\
+
+		\includegraphics[scale=0.25]{mean_var_scatter.png}	
 	\item[2.5]
+		In terms of correctness, KNN and Naive Bayes fair the best with 0.82 and 0.80 success rate respectively whereas Logistic Regression  without L2 had a success rate of 0.76 (did not run with L2). \\
+
+		In this case, Naive Bayes faired well because the assumptions of the conditonals being independent and Guassian were correct. However for datasets for which these assumptions do not hold, I would go with Logistic Regression. \\
+
+		To briefly discuss the differences between these classifiers, Naive Bayes is considered to be a high bias/low variance classifier wheras KNN and Logistic Regression are considered to be low bias / high variance classifiers. 
+
+		High variance can cause overfitting, which can be seen in smaller data sets. I experienced that when running Logistic Regression over the small training set with even with a moderate learning rate of 0.1. However because the problem with high variance can be combatted by increasing the size of the training set. This makes Logistic Regression and KNN good choices for large data sets due to their low bias.
+		
+		Bayes classifier on the other hand have its own advantages. It is not sensitive to irrelevant features (due to independence assumption) and it is very quick to train. So for situations where performance is important and the independence assumption can be made, Bayes is very useful.
 \end{itemize}
 \end{document}

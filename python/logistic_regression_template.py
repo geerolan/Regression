@@ -1,14 +1,14 @@
 import numpy as np
 from check_grad import check_grad
-from plot_digits import *
+#from plot_digits import *
 from utils import *
 from logistic import *
 
 def run_logistic_regression():
     train_inputs, train_targets = load_train()
     #train_inputs, train_targets = load_train_small()
-    valid_inputs, valid_targets = load_valid()
-    #valid_inputs, valid_targets = load_test()
+    #valid_inputs, valid_targets = load_valid()
+    valid_inputs, valid_targets = load_test()
 
     N, M = train_inputs.shape
 
@@ -16,7 +16,7 @@ def run_logistic_regression():
     hyperparameters = {
                     'learning_rate': 0.1,
                     'weight_regularization': 0,
-                    'num_iterations': 50
+                    'num_iterations': 200
                  }
 
     # Logistic regression weights

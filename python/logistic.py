@@ -22,7 +22,10 @@ def logistic_predict(weights, data):
     for row in data:
         z = linear(weights[:-1], row, weights[-1])
         pred0 = 1 / ( 1+ np.exp(-z))
-        y.append(pred0)
+        if pred0 > 0.5:
+            y.append(0)
+        else:
+            y.append(1)
     # TODO: Finish this function 
     return np.array(y)
 
@@ -40,18 +43,12 @@ def evaluate(targets, y):
     # TODO: Finish this function
     ce = 0
     correct = 0.0
+    
     for i in range(len(targets)):
-        if y[i] > 0.5:
-            guess = 0
-        else:
-            guess = 1
-
-        if targets[i] == guess:
-            correct+=1.0
-        ce_cur = np.log(y[i]) * targets[i]
-        ce += ce_cur
-    ce = -1 * ce
-    return ce, correct/len(targets)
+        if y[i] == targets[i]:
+            correct += 1.0
+        ce = ce + (targets[i] * np.log(y[i]) + (1 - targets[i])*np.log(1-y[i]))
+    return (-1*ce), correct/len(targets)
 
 def linear(weights, inputs, bias):
     return np.dot(np.transpose(weights), inputs) + bias
