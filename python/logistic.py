@@ -1,7 +1,8 @@
 """ Methods for doing logistic regression."""
-
+from __future__ import division
 import numpy as np
 from utils import sigmoid
+
 
 def logistic_predict(weights, data):
     """
@@ -21,12 +22,8 @@ def logistic_predict(weights, data):
     y = list()
     for row in data:
         z = linear(weights[:-1], row, weights[-1])
-        pred0 = 1 / ( 1+ np.exp(-z))
-        if pred0 > 0.5:
-            y.append(0)
-        else:
-            y.append(1)
-    # TODO: Finish this function 
+        y.append(1 / ( 1+ np.exp(-z)))
+
     return np.array(y)
 
 def evaluate(targets, y):
@@ -43,12 +40,17 @@ def evaluate(targets, y):
     # TODO: Finish this function
     ce = 0
     correct = 0.0
-    
-    for i in range(len(targets)):
-        if y[i] == targets[i]:
-            correct += 1.0
-        ce = ce + (targets[i] * np.log(y[i]) + (1 - targets[i])*np.log(1-y[i]))
-    return (-1*ce), correct/len(targets)
+    Y = list()
+
+    for i in range(len(y)):
+        if y[i] >= 0.5:
+            Y.append(0)
+        else:
+            Y.append(1)
+
+    ce = np.dot(targets.transpose(), np.log(y)) + np.dot((1 - targets).transpose(), np.log(1 - y))
+
+    return (-1*np.sum(ce)), np.dot(Y, targets)/np.sum(targets)
 
 def linear(weights, inputs, bias):
     return np.dot(np.transpose(weights), inputs) + bias
@@ -94,11 +96,11 @@ def logistic(weights, data, targets, hyperparameters):
     # TODO: Finish this function
 
     #bias_vector = np.array(weights[-1] * len(weights) - 1)
-    z= list()
+    Z = list()
     for row in data:
-        z.append(np.dot(weights[:-1].transpose(), row))
+        Z.append(np.dot(weights[:-1].transpose(), row))
     
-    Z = np.array(z) + weights[-1]
+    Z = np.array(Z) + weights[-1]
     f = np.dot(targets.transpose(), Z) + np.sum(np.log(1 + np.exp(-Z)))
     
     '''
