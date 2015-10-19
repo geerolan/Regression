@@ -14,9 +14,9 @@ def run_logistic_regression():
 
     # TODO: Set hyperparameters
     hyperparameters = {
-                    'learning_rate': 0.1,
+                    'learning_rate': 0.01,
                     'weight_regularization': 0,
-                    'num_iterations': 1
+                    'num_iterations': 150
                  }
 
     # Logistic regression weights

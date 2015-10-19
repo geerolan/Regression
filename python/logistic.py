@@ -96,25 +96,27 @@ def logistic(weights, data, targets, hyperparameters):
     # TODO: Finish this function
 
     #bias_vector = np.array(weights[-1] * len(weights) - 1)
-    Z = list()
+    Z = list() #vector where Z[i] = Z_i = w_i * x_i
     for row in data:
         Z.append(np.dot(weights[:-1].transpose(), row))
     
     Z = np.array(Z) + weights[-1]
     f = np.dot(targets.transpose(), Z) + np.sum(np.log(1 + np.exp(-Z)))
-    df = np.dot(targets.transpose(), data) + np.sum((np.exp(-Z)/(1 + np.exp(-Z))))
-    dfb = np.sum(-1 * targets - (np.exp(-Z)/(1 + np.exp(-Z))))
+    a = np.exp(-Z)
+    b = 1 + np.exp(-Z)
+    df = np.dot((targets - (a/b)).transpose(),  data)
+    dfb = np.sum(targets - 1 * (np.exp(-Z) / (1 + np.exp(-Z))))
     df = np.append(df, dfb)
 
     '''for j in range(len(weights) - 1):
             df.append(dfj(targets, weights, data, j))'''
 
     #iterate over data to find y
-    print targets.shape
-    print data.shape
-    print Z.shape
+   # print targets.shape
+   # print data.shape
+   # print Z.shape
     df.shape = (len(df), 1)
-    print df.shape
+   # print df.shape
     return f, df, logistic_predict(weights, data)
 
 
