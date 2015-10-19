@@ -143,4 +143,24 @@ def logistic_pen(weights, data, targets, hyperparameters):
 
     # TODO: Finish this function
 
-    return f, df, y
+    Z = list() #vector where Z[i] = Z_i = w_i * x_i
+    for row in data:
+        Z.append(np.dot(weights[:-1].transpose(), row))
+
+    Z = np.array(Z) + weights[-1]
+    lb = hyperparameters['learning_rate']
+    f = np.dot(targets.transpose(), Z) + np.sum(np.log(1 + np.exp(-Z))) + ((lb / 2) * np.sum(np.square(weights[:-1]))) + (lb/2 * np.square(weights[-1]))
+    
+    a = np.exp(-Z)
+    b = 1 + np.exp(-Z)
+    c = np.dot((targets - (a/b)).transpose(),  data)
+    d = (lb * weights[:-1])
+
+    df = np.dot((targets - (a/b)).transpose(),  data) +  (lb * weights[:-1]).transpose()
+    dfb = np.sum(targets - 1 * (np.exp(-Z) / (1 + np.exp(-Z)))) + (lb * weights[-1])
+    #print dfb
+    df = np.append(df, dfb)
+    df.shape = (len(df), 1)
+    #print df.shape
+
+    return f, df, logistic_predict(weights, data)
