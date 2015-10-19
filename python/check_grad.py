@@ -38,8 +38,10 @@ def check_grad(func, X, epsilon, *args):
         y1 = func(X+dx, *args)[0]
         dh[j] = (y2 - y1)/(2*epsilon)
 
-    print dy
-    print dh
+    #print dy
+    #print dh
+    print dy.shape
+    print dh.shape
     print np.hstack((dy, dh))          # print the two vectors
     d = LA.norm(dh-dy)/LA.norm(dh+dy)  # return norm of diff divided by norm of sum
 

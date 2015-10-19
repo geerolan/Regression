@@ -94,11 +94,11 @@
 
 		Applying product rules will give the following result: \\
 
-		$\frac{\delta l}{\delta w_j} = \sum_i^N yx_j + \sum_i^N \frac{exp(-z)}{1 + exp(-z)}$ \\
+		$\frac{\delta l}{\delta w_j} = \sum_i^N y_ix_j + \sum_i^N \frac{exp(-z_i)}{1 + exp(-z_i)}$ \\
 
-		$\frac{\delta l}{\delta b} = \sum_i^N \frac{\delta (\ln(1 + exp(-z)))}{\delta b} + \sum_i^N \frac{\delta y(z)}{\delta b}$ \\
+		$\frac{\delta l}{\delta b} = \sum_i^N \frac{\delta (\ln(1 + exp(-z_i)))}{\delta b} + \sum_i^N \frac{\delta y(z_i)}{\delta b}$ \\
 
-		$\frac{\delta l}{\delta b} = \sum_i^N -y - \sum_i^N \frac{exp(-z)}{1 + exp(-z)}$ 
+		$\frac{\delta l}{\delta b} = \sum_i^N -y_i - \sum_i^N \frac{exp(-z_i)}{1 + exp(-z_i)}$ 
 	\item[1.3]
 \end{itemize}
 \section*{Digit Classification}

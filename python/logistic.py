@@ -102,28 +102,20 @@ def logistic(weights, data, targets, hyperparameters):
     
     Z = np.array(Z) + weights[-1]
     f = np.dot(targets.transpose(), Z) + np.sum(np.log(1 + np.exp(-Z)))
-    
-    '''
-    for i in range(len(targets)):
-        z = linear(weights[:-1], data[i], weights[-1])
-        L = 1 + np.exp(-z)
-        tz = tz + (targets[i] * z)
-        nextf = targets[i] * z + np.log(L)
-        f = f + nextf'''
-    #iterate over data to find df
-    '''T = np.array(targets)
-    t = np.array(targets)
-    for i in range(len(targets) - 1):
-        T = np.hstack((T,t))'''
+    df = np.dot(targets.transpose(), data) + np.sum((np.exp(-Z)/(1 + np.exp(-Z))))
+    dfb = np.sum(-1 * targets - (np.exp(-Z)/(1 + np.exp(-Z))))
+    df = np.append(df, dfb)
 
-    df = list()
-    for j in range(len(weights) - 1):
-            df.append(dfj(targets, weights, data, j))
-
-    df.append(dfbias(targets, weights, data))
+    '''for j in range(len(weights) - 1):
+            df.append(dfj(targets, weights, data, j))'''
 
     #iterate over data to find y
-    return f, np.array(df), logistic_predict(weights, data)
+    print targets.shape
+    print data.shape
+    print Z.shape
+    df.shape = (len(df), 1)
+    print df.shape
+    return f, df, logistic_predict(weights, data)
 
 
 def logistic_pen(weights, data, targets, hyperparameters):
