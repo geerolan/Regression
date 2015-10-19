@@ -123,6 +123,13 @@
 		The minimum $k$ that will produce the maximum $k*$ would be $k = 3$. Also since we are dealing with binary classification, $k$ should be odd. The rate for $k = 1$ is 0.82 and $k = 5$ is 0.86. The test performance in this case does correspond to the validation performance. Test performance is $O(dn)$. Validiation performance is $KO(\frac{dn}{K})$.
 
 	\item[2.2]
+		The best paramters that I have found were a learning rate of 0.05, with 150 iterations. On a small training set, LR overfits with training accuracy of 100, valid CE of 184, and valid accuracy of 88. On the regular training set, LR prefomed quite well with training accuracy with 83, valid CE of 185, and valid accuracy of 84. On the test set, training accuracy was 88, valid CE of 224, and valid accuracy of 90. \\
+
+		Iterations vs CE Plot for small training set: \\
+		\includegraphics[scale = 0.50] {small_set.png} \\
+
+		Iterations vs CE Plot for regular training set: \\
+		\includegraphics[scale = 0.50] {regular_set.png}
 	\item[2.3]
 	\newpage
 	\item[2.4]
