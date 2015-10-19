@@ -61,17 +61,44 @@
 
 
 
-
 	\item[1.2]
 		The definition of MLE for a binary output $y$ is the maximization of the following expression $L = \prod_{i=1}^N p(y = y_i | x)$. \\
 
 		$p( y = y_i | x^n, w, b) = \sigma(w^Tx^{(n)} + b)(1 - \sigma(w^Tx^{(n)})$ \\
 
-		$L = \prod_{i=1}^N [\sigma(w_i^Tx_i^{(n)}] + b)]^{y_i}[(1 - \sigma(w_i^Tx_i^{(n)})]^{(1-y_i)}$ \\
+		$L = \prod_{i=1}^N [\sigma(w_i^Tx_i^{(n)}] + b)]^{1 - y_i}[(1 - \sigma(w_i^Tx_i^{(n)})]^{(y_i)}$ \\
 
-		$\ln L = \sum_{i=1}^N\Bigg( y_i \ln \sigma(w_i^Tx_i^{(n)} + b) + (1-y_i) \ln (1 - \sigma(w_i^Tx_i^{(n)})] \Bigg)$ \\
+		$\sigma(w_i^Tx_i^{(n)} + b) = \frac{1}{1 + \exp(-z)}$ where $z = \sum_i^D w_ix_i + b$ \\
 
-		$\sigma(w^Tx^{(n)} + b) = \frac{1}{1 + \exp(-\sum_{i=0}^D w_ix_i^{(n)} - b)}$
+		$\ln \sigma(w_i^Tx_i^{(n)}] + b) = -\ln (1 + \exp(-z))$ \\		
+
+		$1 - \sigma(w_i^Tx_i^{(n)})]^{(y_i)} = \frac{\exp(-z)}{1 + \exp(-z)}$\\
+
+		$\ln (1- \sigma(w_i^Tx_i^{(n)}] + b)) = -z - \ln(1 + \exp(-z))$ \\
+
+		$-\ln L = -\sum_i^N (1-y) (-\ln (1 + \exp(-z))) + \sum_i^N y(-z - \ln(1 + \exp(-z)))$ \\
+
+		$= -\sum_i^N -\ln (1 + \exp(-z)) + y(\ln (1 + \exp(-z))) + \sum_i^N -yz -y(\ln(1 + \exp(-z)))) $ \\
+
+		$= \sum_i^N \ln (1 + \exp(-z)) + \sum_i^N yz)$ \\
+
+		let $l = -\ln L$: \\
+
+		$z = \sum_i^D w_ix_i + b$ \\
+
+		To find $\frac{\delta l}{\delta w}$ , we have to derive $\frac{\delta l}{\delta w_j}$ where $w_j$ represents an individual weight in our model. \\
+
+		With respect to $-z$, we only want to use the weight and corresponding input $i = j \in D$. Hence $\sum_i^D w_ix_i$ becomes $w_jx_j$ when calculating the derivative. \\
+
+		$\frac{\delta l}{\delta w_j} = \sum_i^N \frac{\delta (\ln(1 + exp(-z)))}{\delta w_j} + \sum_i^N \frac{\delta y(z)}{\delta w_j}$ \\
+
+		Applying product rules will give the following result: \\
+
+		$\frac{\delta l}{\delta w_j} = \sum_i^N yx_j + \sum_i^N \frac{exp(-z)}{1 + exp(-z)}$ \\
+
+		$\frac{\delta l}{\delta b} = \sum_i^N \frac{\delta (\ln(1 + exp(-z)))}{\delta b} + \sum_i^N \frac{\delta y(z)}{\delta b}$ \\
+
+		$\frac{\delta l}{\delta b} = \sum_i^N -y - \sum_i^N \frac{exp(-z)}{1 + exp(-z)}$ 
 	\item[1.3]
 \end{itemize}
 \section*{Digit Classification}
