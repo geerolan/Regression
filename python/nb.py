@@ -86,10 +86,6 @@ def main():
     bayes.train(train_inputs, train_targets)
     A = bayes.predict(test_targets)
     print bayes.compute_accuracy(test_inputs, test_targets)
-    bins = np.linspace(0, 1)
-    plt.scatter(bayes.mean, bayes.var, color=["red", "green"] , alpha=0.5)
-    plt.show()
-
 
 if __name__ == '__main__':
     main()
